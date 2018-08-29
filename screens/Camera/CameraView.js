@@ -31,21 +31,21 @@ const CameraView = wrapWithContext(class CameraView extends Component {
     takePicture = () => {
         const { app } = this.props;
         console.log(app, this.props, 'o');
-        this.props.showLoader();
+        // this.props.showLoader();
 
-        setTimeout(() => {
-            this.props.hideLoader();
-        }, 5000)
-        // process.nextTick = setImmediate;
-        // this.cameraRef.current.takePictureAsync({ base64: true, quality: 1 })
-        //     .then((image) => {
-        //         console.log(image);
-        //         this.setState({ imageUri: image.uri });
-        //         // this.predictImage(app, image);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err, 'error');
-        //     })
+        // setTimeout(() => {
+        //     this.props.hideLoader();
+        // }, 5000)
+        process.nextTick = setImmediate;
+        this.cameraRef.current.takePictureAsync({ base64: true, quality: 1 })
+            .then((image) => {
+                console.log(image);
+                this.setState({ imageUri: image.uri });
+                this.predictImage(app, image);
+            })
+            .catch((err) => {
+                console.log(err, 'error');
+            })
     }
 
     predictImage = (app, { base64 }) => {
