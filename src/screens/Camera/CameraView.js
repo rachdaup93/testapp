@@ -3,7 +3,7 @@ import axios from 'axios';
 import Clarifai from 'clarifai';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Camera, Permissions } from 'expo';
-import wrapWithContext from '../../components/wrapWithContext';
+import { wrapWithContext } from 'components/wrapWithContext';
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const CameraView = wrapWithContext(class CameraView extends Component {
+export const CameraView = wrapWithContext(class CameraView extends Component {
     state = {
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
@@ -41,7 +41,7 @@ const CameraView = wrapWithContext(class CameraView extends Component {
             .then((image) => {
                 console.log(image);
                 this.setState({ imageUri: image.uri });
-                return this.predictImage(app, image);
+                // return this.predictImage(app, image);
             })
             .catch((err) => {
                 console.log(err, 'error');
@@ -121,5 +121,3 @@ const CameraView = wrapWithContext(class CameraView extends Component {
         );
     }
 });
-
-export default CameraView;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { CameraContext } from '../App';
+import { CameraContext } from 'App';
 
-export default function wrapWithContext(ToWrap) {
+export function wrapWithContext(ToWrap) {
     return function wrapped(props) {
         return (
             <CameraContext.Consumer>

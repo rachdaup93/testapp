@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-})
+});
 
-class LoadingOverlay extends Component {
+export class LoadingOverlay extends Component {
     static defaultProps = {
         visible: false,
     }
-    
+
     constructor(props) {
         super(props);
     }
@@ -36,13 +36,11 @@ class LoadingOverlay extends Component {
                 onRequestClose={() => ''}
                 transparent
                 visible={this.props.visible}
-            >   
+            >
                 <View style={styles.container}>
-                    <ActivityIndicator />
+                    <ActivityIndicator/>
                 </View>
             </Modal>
-        )
+        );
     }
 }
-
-export default LoadingOverlay;

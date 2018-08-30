@@ -2,8 +2,8 @@ import React from 'react';
 import Clarifai from 'clarifai';
 import { CLARIFAI_API_KEY } from 'react-native-dotenv';
 import { StyleSheet, Text, View } from 'react-native';
-import MainNavigator from './Navigation';
-import LoadingOverlay from './screens/Loading/LoadingOverlay';
+import { LoadingOverlay } from 'screens/Loading/LoadingOverlay';
+import { MainNavigator } from 'Navigation';
 
 const app = new Clarifai.App({
     apiKey: CLARIFAI_API_KEY,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class App extends React.Component {
+export class App extends React.Component {
     state = {
         showLoading: false,
     };
