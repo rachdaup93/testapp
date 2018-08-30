@@ -11,17 +11,17 @@ const styles = StyleSheet.create({
     },
     cameraContainer: {
         flex: 1,
-    }
+    },
 });
 
 const CameraView = wrapWithContext(class CameraView extends Component {
     state = {
-        hasCameraPermission: null, 
+        hasCameraPermission: null,
         type: Camera.Constants.Type.back,
         imageUri: null,
     };
 
-    async componentWillMount() {
+    async componentDidMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
     }
@@ -30,91 +30,96 @@ const CameraView = wrapWithContext(class CameraView extends Component {
 
     takePicture = () => {
         const { app } = this.props;
-        console.log(app, this.props, 'o');
+        console.log(app, this.props, 'o9');
         // this.props.showLoader();
 
         // setTimeout(() => {
         //     this.props.hideLoader();
         // }, 5000)
         process.nextTick = setImmediate;
-        this.cameraRef.current.takePictureAsync({ base64: true, quality: 1 })
+        this.cameraRef.current.takePictureAsync({ base64: true, quality: 0.99 })
             .then((image) => {
                 console.log(image);
                 this.setState({ imageUri: image.uri });
-                this.predictImage(app, image);
+                return this.predictImage(app, image);
             })
             .catch((err) => {
                 console.log(err, 'error');
-            })
+            });
     }
 
     predictImage = (app, { base64 }) => {
         console.log('iran', app);
         app.models.predict(Clarifai.FOOD_MODEL, { base64 })
             .then((res) => {
-                console.log(res);
+                return console.log(res);
             })
             .catch((err) => {
                 console.log(err);
-            })
-    } 
+            });
+    };
 
     render() {
         const { hasCameraPermission } = this.state;
+
         if (hasCameraPermission === null) {
             return <View />;
         } else if (hasCameraPermission === false) {
             return <Text>No access to camera</Text>;
-        } else if (this.state.imageUri) {
-            return ( 
-                <View style={styles.container}>
-                    <Image style={{ width: 400, height: 800}} source={{uri: this.state.imageUri}}></Image>
-                </View>
-            );
-        } else {
+        }
+
+        if (this.state.imageUri) {
             return (
                 <View style={styles.container}>
-                    <Camera
-                        style={styles.cameraContainer}
-                        type={this.state.type}
-                        ref={this.cameraRef}
-                    >
-                        <View
-                          style={{
+                    <Image style={{ width: 400, height: 800 }} source={{ uri: this.state.imageUri }}></Image>
+                </View>
+            );
+        }
+
+        return (
+            <View style={styles.container}>
+                <Camera
+                    style={styles.cameraContainer}
+                    type={this.state.type}
+                    ref={this.cameraRef}
+                >
+                    <View
+                        style={{
                             flex: 1,
                             backgroundColor: 'transparent',
                             flexDirection: 'row',
-                          }}>
-                            <TouchableOpacity
-                                style={{
-                                    flex: 0.1,
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                }}
-                                onPress={() => {
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={{
+                                flex: 0.1,
+                                alignSelf: 'flex-end',
+                                alignItems: 'center',
+                            }}
+                            onPress={() => {
                                 this.setState({
                                     type: this.state.type === Camera.Constants.Type.back
                                     ? Camera.Constants.Type.front
                                     : Camera.Constants.Type.back,
                                 });
-                            }}>
-                                <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                                    {' '}Flip{' '}
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={this.takePicture}
-                            >
-                                <Text style={{ fontSize: 30, marginTop: 20, color: 'white' }}>
-                                    Take Picture
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Camera>
-              </View>
-          );
-      }
-  }
-})
+                            }}
+                        >
+                            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                                {' '}Flip{' '}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={this.takePicture}
+                        >
+                            <Text style={{ fontSize: 30, marginTop: 20, color: 'white' }}>
+                                Take Picture
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </Camera>
+            </View>
+        );
+    }
+});
 
 export default CameraView;

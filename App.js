@@ -1,13 +1,13 @@
 import React from 'react';
+import Clarifai from 'clarifai';
+import { CLARIFAI_API_KEY } from 'react-native-dotenv';
 import { StyleSheet, Text, View } from 'react-native';
 import MainNavigator from './Navigation';
-import Clarifai from 'clarifai';
-import LoadingOverlay from './screens/Loading/LoadingOverlay'
-import { CLARIFAI_API_KEY } from 'react-native-dotenv'
+import LoadingOverlay from './screens/Loading/LoadingOverlay';
 
 const app = new Clarifai.App({
     apiKey: CLARIFAI_API_KEY,
-})
+});
 
 export const CameraContext = React.createContext();
 
@@ -17,18 +17,15 @@ const styles = StyleSheet.create({
     },
 });
 
-
-
 export default class App extends React.Component {
-
     state = {
         showLoading: false,
     };
-    
+
     componentDidUpdate() {
         console.log('laksdjf', this.state.showLoading);
     }
-    
+
     showLoader = () => this.setState({ showLoading: true });
 
     hideLoader = () => this.setState({ showLoading: false });
@@ -46,7 +43,7 @@ export default class App extends React.Component {
                     visible={this.state.showLoading}
                 />
                 <CameraContext.Provider value={ctx}>
-                    <MainNavigator />
+                    <MainNavigator/>
                 </CameraContext.Provider>
             </View>
         );
