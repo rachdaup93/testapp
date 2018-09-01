@@ -5,13 +5,23 @@ import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
 });
 
 const SLIDE_DATA = [
-    { text: 'Welcome to App' },
-    { text: 'Do this to App, Magic!' },
+    { 
+        id: "welcome_screen_0",
+        header: "Welcome to CanIEatThis?",
+        text: "An app that let's you vote on your next meal.",
+        image: require('../../assets/images/hotDogs.jpg')
+    },
+    { 
+        id: "welcome_screen_1",
+        header: "Do this to App, Magic!",
+        text: "Test paragraph here.",
+        image: require('../../assets/images/hotDogs.jpg')
+    },
 ];
 
 export class WelcomeScreen extends Component {
