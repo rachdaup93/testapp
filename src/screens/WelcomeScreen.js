@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
 import { Slides } from 'components/Slides';
 import PropTypes from 'prop-types';
+import { Facebook } from 'expo';
+import { FACEBOOK_APP_ID } from 'react-native-dotenv';
+import { emitter } from 'lib/emitter';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
 });
 
 const SLIDE_DATA = [
-    { 
-        id: "welcome_screen_0",
-        header: "Welcome to CanIEatThis?",
-        text: "An app that let's you vote on your next meal.",
-        image: require('../../assets/images/hotDogs.jpg')
+    {
+        id: 'welcome_screen_0',
+        header: 'Welcome to CanIEatThis?',
+        text: 'An app that let\'s you vote on your next meal.',
+        image: require('../../assets/images/hotDogs.jpg'),
     },
-    { 
-        id: "welcome_screen_1",
-        header: "Do this to App, Magic!",
-        text: "Test paragraph here.",
-        image: require('../../assets/images/hotDogs.jpg')
+    {
+        id: 'welcome_screen_1',
+        header: 'Do this to App, Magic!',
+        text: 'Test paragraph here.',
+        image: require('../../assets/images/hotDogs.jpg'),
     },
 ];
 
 export class WelcomeScreen extends Component {
-    onSlidesComplete = () => {
-        this.props.navigation.navigate('auth');
+    facebookLogin = async () => {
+        const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+            FACEBOOK_APP_ID,
+            { permissions: ['public_profile'] }
+        );
+
+        if (type === 'success') {
+            await AsyncStorage.setItem('fb_token', token);
+            emitter.emit('new_user_token', token);
+            this.props.navigation.navigate('main');
+        }
     }
 
     render() {
@@ -34,7 +46,7 @@ export class WelcomeScreen extends Component {
             <View style={styles.container}>
                 <Slides
                     data={SLIDE_DATA}
-                    onComplete={this.onSlidesComplete}
+                    onComplete={this.facebookLogin}
                 />
             </View>
         );

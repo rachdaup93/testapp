@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { emitter } from 'lib/emitter';
@@ -8,7 +9,6 @@ import {
     FIREBASE_DATABASE_URL,
     FIREBASE_STORAGE_BUCKET,
 } from 'react-native-dotenv';
-import { StyleSheet, View, AsyncStorage } from 'react-native';
 
 const firebaseConfig = {
     apiKey: FIREBASE_API_KEY,

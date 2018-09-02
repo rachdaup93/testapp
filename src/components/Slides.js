@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, Avatar, Icon } from 'react-native-elements';
+import { Button, Avatar } from 'react-native-elements';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const DEFAULT_FONT_SIZE = 20
+const DEFAULT_FONT_SIZE = 20;
 
 const styles = StyleSheet.create({
     container: {
@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
     headerStyle: {
         color: 'green',
         fontSize: DEFAULT_FONT_SIZE * 1.2,
-        marginBottom: 50
+        marginBottom: 50,
     },
     textStyle: {
         fontSize: DEFAULT_FONT_SIZE,
         textAlign: 'center',
-        marginTop: 50
+        marginTop: 50,
     },
     buttonContainerStyle: {
         marginTop: 15,
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 3,
     },
-    
 });
 
 export class Slides extends Component {
@@ -48,8 +47,8 @@ export class Slides extends Component {
                     <Text style={styles.headerStyle}>
                         {slide.header}
                     </Text>
-                    
-                    <Avatar size="xlarge" rounded source={ slide.image } />
+
+                    <Avatar size="xlarge" rounded source={ slide.image }/>
 
                     <Text style={styles.textStyle}>
                         {slide.text}
