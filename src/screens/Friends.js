@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 
 export class Friends extends Component {
     eraseCache = () => {
-        AsyncStorage.setItem('fb_token', '');
+        AsyncStorage.removeItem('fb_token');
     }
 
     render() {

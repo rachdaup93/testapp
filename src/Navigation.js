@@ -7,10 +7,17 @@ import { Friends } from 'screens/Friends';
 const AppNavigator = createBottomTabNavigator({
     camera: { screen: CameraView },
     friends: { screen: Friends },
-}, { animationEnabled: true });
+}, {
+    animationEnabled: true,
+});
 
 export const MainNavigator = createBottomTabNavigator({
     root: { screen: HandleBoot },
     welcome: { screen: WelcomeScreen },
     main: AppNavigator,
-}, { animationEnabled: true });
+}, {
+    animationEnabled: true,
+    navigationOptions: {
+        tabBarVisible: false,
+    },
+});
