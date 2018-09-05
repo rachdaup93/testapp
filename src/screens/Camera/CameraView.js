@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { withNavigationFocus } from 'react-navigation';
 import Clarifai from 'clarifai';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Camera, Permissions } from 'expo';
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const CameraView = wrapWithContext(class CameraView extends Component {
+export const CameraView = withNavigationFocus(wrapWithContext(class CameraView extends Component {
     state = {
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
@@ -62,7 +62,8 @@ export const CameraView = wrapWithContext(class CameraView extends Component {
     render() {
         const { hasCameraPermission } = this.state;
 
-        if (hasCameraPermission === null) {
+        // RN never unmounts camera. Unmount camera manually
+        if (hasCameraPermission === null || !this.props.navigation.isFocused()) {
             return <View />;
         } else if (hasCameraPermission === false) {
             return <Text>No access to camera</Text>;
@@ -120,4 +121,4 @@ export const CameraView = wrapWithContext(class CameraView extends Component {
             </View>
         );
     }
-});
+}));
